@@ -9,8 +9,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "enseignants")
-public class Enseignant {
+@Table(name = "admins")
+public class Admin {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,23 +24,15 @@ public class Enseignant {
 
     @JsonIgnore
     private String password;
-    private String matricule;
 
-    public Enseignant() {}
+    public Admin() {}
 
-    public Enseignant(
-            Long id,
-            String nom,
-            String prenom,
-            String email,
-            String password,
-            String matricule) {
+    public Admin(Long id, String nom, String prenom, String email, String password) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.password = password;
-        this.matricule = matricule;
     }
 
     public Long getId() {
@@ -81,13 +73,5 @@ public class Enseignant {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getMatricule() {
-        return matricule;
-    }
-
-    public void setMatricule(String matricule) {
-        this.matricule = matricule;
     }
 }

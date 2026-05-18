@@ -1,5 +1,6 @@
 package com.example.smartabsence.controller;
 
+import com.example.smartabsence.dto.SeanceDTO;
 import com.example.smartabsence.model.Seance;
 import com.example.smartabsence.repository.SeanceRepository;
 import java.util.List;
@@ -29,7 +30,15 @@ public class SeanceController {
     }
 
     @PostMapping
-    public Seance create(@RequestBody Seance seance) {
+    public Seance create(@RequestBody SeanceDTO dto) {
+        Seance seance = new Seance();
+        seance.setId(dto.getId());
+        seance.setDate(dto.getDate());
+        seance.setHeureDebut(dto.getHeureDebut());
+        seance.setHeureFin(dto.getHeureFin());
+        seance.setEnseignant(dto.getEnseignant());
+        seance.setClasse(dto.getClasse());
+        seance.setMatiere(dto.getMatiere());
         return seanceRepository.save(seance);
     }
 }

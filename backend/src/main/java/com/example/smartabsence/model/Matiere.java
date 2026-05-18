@@ -5,11 +5,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Data;
 
 @Entity
 @Table(name = "matieres")
-@Data
 public class Matiere {
 
     @Id
@@ -18,4 +16,36 @@ public class Matiere {
 
     private String nom;
     private Double coefficient;
+
+    public Matiere() {}
+
+    public Matiere(Long id, String nom, Double coefficient) {
+        this.id = id;
+        this.nom = nom;
+        this.coefficient = coefficient;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public Double getCoefficient() {
+        return coefficient;
+    }
+
+    public void setCoefficient(Double coefficient) {
+        this.coefficient = coefficient;
+    }
 }

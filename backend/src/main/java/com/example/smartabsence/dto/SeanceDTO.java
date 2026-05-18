@@ -1,58 +1,20 @@
-package com.example.smartabsence.model;
+package com.example.smartabsence.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.example.smartabsence.model.Classe;
+import com.example.smartabsence.model.Enseignant;
+import com.example.smartabsence.model.Matiere;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-@Entity
-@Table(name = "seances")
-public class Seance {
+public class SeanceDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private LocalDate date;
     private LocalTime heureDebut;
     private LocalTime heureFin;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "enseignant_id")
     private Enseignant enseignant;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "classe_id")
     private Classe classe;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "matiere_id")
     private Matiere matiere;
-
-    public Seance() {}
-
-    public Seance(
-            Long id,
-            LocalDate date,
-            LocalTime heureDebut,
-            LocalTime heureFin,
-            Enseignant enseignant,
-            Classe classe,
-            Matiere matiere) {
-        this.id = id;
-        this.date = date;
-        this.heureDebut = heureDebut;
-        this.heureFin = heureFin;
-        this.enseignant = enseignant;
-        this.classe = classe;
-        this.matiere = matiere;
-    }
 
     public Long getId() {
         return id;

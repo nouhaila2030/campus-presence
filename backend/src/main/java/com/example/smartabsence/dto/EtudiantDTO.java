@@ -1,58 +1,16 @@
-package com.example.smartabsence.model;
+package com.example.smartabsence.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Lob;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import com.example.smartabsence.model.Classe;
 
-@Entity
-@Table(name = "etudiants")
-public class Etudiant {
+public class EtudiantDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String nom;
     private String prenom;
-
-    @Column(unique = true)
     private String email;
-
     private String matricule;
-
-    @Lob
-    @Column(columnDefinition = "LONGTEXT")
     private String photoUrl;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "classe_id")
     private Classe classe;
-
-    public Etudiant() {}
-
-    public Etudiant(
-            Long id,
-            String nom,
-            String prenom,
-            String email,
-            String matricule,
-            String photoUrl,
-            Classe classe) {
-        this.id = id;
-        this.nom = nom;
-        this.prenom = prenom;
-        this.email = email;
-        this.matricule = matricule;
-        this.photoUrl = photoUrl;
-        this.classe = classe;
-    }
 
     public Long getId() {
         return id;
