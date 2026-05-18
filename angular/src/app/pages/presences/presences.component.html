@@ -1,0 +1,121 @@
+<div class="presences-page">
+  <header class="presences-header">
+    <div class="header-left">
+      <a routerLink="/dashboard" class="btn-back" aria-label="Retour au tableau de bord">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M15 18l-6-6 6-6"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        Retour
+      </a>
+      <div class="brand">
+        <span class="brand-dot"></span>
+        Smart Absence
+      </div>
+    </div>
+    <button type="button" class="btn-logout" (click)="auth.logout()">Déconnexion</button>
+  </header>
+
+  <main class="presences-main">
+    <div class="presences-card">
+      <div class="card-header">
+        <h1>Prise de présence</h1>
+        <p>Sélectionnez une séance, puis indiquez les absents.</p>
+      </div>
+
+      <div class="field">
+        <label for="seance">Séance</label>
+        <select
+          id="seance"
+          class="select-seance"
+          [disabled]="isLoadingSeances()"
+          (change)="onSeanceChange($event)"
+        >
+          <option value="">— Choisir une séance —</option>
+          @for (seance of seances(); track seance.id) {
+            <option [value]="seance.id">
+              {{ seance.date }} - {{ seance.classe?.nom || 'Classe ' + seance.classe?.id }} /
+              {{ seance.matiere?.nom || 'Matière ' + seance.matiere?.id }}
+            </option>
+          }
+        </select>
+        @if (isLoadingSeances()) {
+          <span class="field-hint">Chargement des séances…</span>
+        }
+      </div>
+
+      @if (errorMessage()) {
+        <div class="alert-error" role="alert">{{ errorMessage() }}</div>
+      }
+
+      @if (successMessage()) {
+        <div class="alert-success" role="status">{{ successMessage() }}</div>
+      }
+
+      @if (selectedSeanceId() !== null) {
+        <section class="students-section">
+          <h2>Étudiants</h2>
+
+          @if (isLoadingEtudiants()) {
+            <p class="loading-text">Chargement des étudiants…</p>
+          } @else if (etudiantsPresence().length === 0) {
+            <p class="empty-text">Aucun étudiant dans cette classe.</p>
+          } @else {
+            <ul class="student-list">
+              @for (entry of etudiantsPresence(); track entry.etudiant.id; let i = $index) {
+                <li class="student-row">
+                  <div class="student-info">
+                    <span class="student-name">{{ entry.etudiant.prenom }} {{ entry.etudiant.nom }}</span>
+                    @if (entry.etudiant.matricule) {
+                      <span class="student-matricule">{{ entry.etudiant.matricule }}</span>
+                    }
+                  </div>
+                  <div class="presence-toggle" role="group" [attr.aria-label]="'Présence de ' + entry.etudiant.prenom">
+                    <button
+                      type="button"
+                      class="toggle-btn"
+                      [class.active]="entry.present"
+                      (click)="setPresence(i, true)"
+                    >
+                      Présent
+                    </button>
+                    <button
+                      type="button"
+                      class="toggle-btn absent"
+                      [class.active]="!entry.present"
+                      (click)="setPresence(i, false)"
+                    >
+                      Absent
+                    </button>
+                  </div>
+                </li>
+              }
+            </ul>
+
+            <div class="summary">
+              <span>{{ absentCount() }} absent{{ absentCount() > 1 ? 's' : '' }}</span>
+            </div>
+
+            <button
+              type="button"
+              class="btn-primary"
+              [disabled]="isSubmitting()"
+              (click)="valider()"
+            >
+              @if (isSubmitting()) {
+                Enregistrement…
+              } @else {
+                Valider
+              }
+            </button>
+          }
+        </section>
+      }
+    </div>
+  </main>
+</div>

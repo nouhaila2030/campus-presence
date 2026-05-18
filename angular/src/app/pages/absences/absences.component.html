@@ -1,0 +1,220 @@
+<div class="absences-page">
+  <header class="absences-header">
+    <div class="header-left">
+      <a routerLink="/dashboard" class="btn-back" aria-label="Retour au tableau de bord">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M15 18l-6-6 6-6"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+        Retour
+      </a>
+      <div class="brand">
+        <span class="brand-dot"></span>
+        Smart Absence
+      </div>
+    </div>
+    <button type="button" class="btn-logout" (click)="auth.logout()">Déconnexion</button>
+  </header>
+
+  <main class="absences-main">
+    <div class="absences-card">
+      <div class="card-header">
+        <h1>Liste des absences</h1>
+        <p>Consultez et filtrez les absences enregistrées.</p>
+      </div>
+
+      <section class="filter-bar" aria-label="Filtres">
+        <div class="filter-field">
+          <label for="filter-seance">Séance</label>
+          <select
+            id="filter-seance"
+            class="filter-control"
+            [disabled]="isLoading()"
+            (change)="onSeanceFilterChange($event)"
+          >
+            <option value="">Toutes les séances</option>
+            @for (seance of seances(); track seance.id) {
+              <option [value]="seance.id">
+                {{ seance.date }} - {{ seance.classe?.nom || 'Classe ' + seance.classe?.id }} /
+                {{ seance.matiere?.nom || 'Matière ' + seance.matiere?.id }}
+              </option>
+            }
+          </select>
+        </div>
+
+        <div class="filter-field">
+          <label for="filter-classe">Classe</label>
+          <select
+            id="filter-classe"
+            class="filter-control"
+            [disabled]="isLoading()"
+            (change)="onClasseFilterChange($event)"
+          >
+            <option value="">Toutes les classes</option>
+            @for (classe of classes(); track classe.id) {
+              <option [value]="classe.id">{{ classe.nom }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="filter-field">
+          <label for="filter-justifiee">Justifiée</label>
+          <select
+            id="filter-justifiee"
+            class="filter-control"
+            [disabled]="isLoading()"
+            (change)="onJustifieeFilterChange($event)"
+          >
+            <option value="all">Toutes</option>
+            <option value="justified">Justifiées</option>
+            <option value="unjustified">Non justifiées</option>
+          </select>
+        </div>
+
+        <div class="filter-field filter-field-search">
+          <label for="filter-student">Étudiant</label>
+          <input
+            id="filter-student"
+            type="search"
+            class="filter-control"
+            placeholder="Rechercher par nom ou prénom…"
+            [disabled]="isLoading()"
+            (input)="onStudentSearchChange($event)"
+          />
+        </div>
+      </section>
+
+      @if (errorMessage()) {
+        <div class="alert-error" role="alert">{{ errorMessage() }}</div>
+      }
+
+      @if (isLoading()) {
+        <p class="loading-text">Chargement des absences…</p>
+      } @else if (filteredAbsences().length === 0) {
+        <p class="empty-text">Aucune absence ne correspond aux filtres.</p>
+      } @else {
+        <div class="table-wrapper">
+          <table class="absences-table">
+            <thead>
+              <tr>
+                <th>Étudiant</th>
+                <th>Matricule</th>
+                <th>Séance</th>
+                <th>Classe</th>
+                <th>Matière</th>
+                <th>Statut</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (absence of filteredAbsences(); track absence.id) {
+                <tr>
+                  <td>
+                    <span class="student-name">
+                      {{ absence.etudiant?.nom ?? '—' }}, {{ absence.etudiant?.prenom ?? '—' }}
+                    </span>
+                  </td>
+                  <td>{{ absence.etudiant?.matricule ?? '—' }}</td>
+                  <td>
+                    <span class="seance-cell">
+                      <span>{{ absence.seance?.date ?? absence.date ?? '—' }}</span>
+                      <span class="seance-time">{{ formatTime(absence.seance?.heureDebut) }}</span>
+                    </span>
+                  </td>
+                  <td>{{ getClasseLabel(absence) }}</td>
+                  <td>{{ getMatiereLabel(absence) }}</td>
+                  <td>
+                    @if (absence.justifiee) {
+                      <span
+                        class="badge badge-yes"
+                        [title]="absence.commentaire || undefined"
+                      >
+                        Justifiée
+                      </span>
+                    } @else {
+                      <span class="badge badge-no">Non justifiée</span>
+                    }
+                  </td>
+                  <td>
+                    @if (!absence.justifiee) {
+                      <button
+                        type="button"
+                        class="btn-justify"
+                        (click)="openJustifyModal(absence)"
+                      >
+                        Justifier
+                      </button>
+                    }
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+        <p class="result-count">{{ filteredAbsences().length }} absence(s) affichée(s)</p>
+      }
+    </div>
+  </main>
+
+  @if (justifyModalOpen()) {
+    <div class="modal-backdrop" role="presentation" (click)="closeJustifyModal()"></div>
+    <div
+      class="modal-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="justify-modal-title"
+      (click)="$event.stopPropagation()"
+    >
+      <h2 id="justify-modal-title">Justifier l'absence</h2>
+      <p class="modal-subtitle">
+        @if (justifyTarget()?.etudiant; as etudiant) {
+          {{ etudiant.prenom }} {{ etudiant.nom }}
+        }
+      </p>
+
+      <label for="justify-comment">Commentaire / motif</label>
+      <textarea
+        id="justify-comment"
+        class="modal-textarea"
+        rows="4"
+        placeholder="Saisissez la raison de la justification…"
+        [disabled]="justifySubmitting()"
+        [value]="justifyComment()"
+        (input)="onJustifyCommentChange($event)"
+      ></textarea>
+
+      @if (justifyError()) {
+        <div class="alert-error modal-error" role="alert">{{ justifyError() }}</div>
+      }
+
+      <div class="modal-actions">
+        <button
+          type="button"
+          class="btn-modal-cancel"
+          [disabled]="justifySubmitting()"
+          (click)="closeJustifyModal()"
+        >
+          Annuler
+        </button>
+        <button
+          type="button"
+          class="btn-modal-confirm"
+          [disabled]="justifySubmitting()"
+          (click)="confirmJustify()"
+        >
+          @if (justifySubmitting()) {
+            Envoi…
+          } @else {
+            Confirmer
+          }
+        </button>
+      </div>
+    </div>
+  }
+</div>

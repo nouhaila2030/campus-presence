@@ -1,0 +1,66 @@
+<div class="login-page">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="logo-icon" aria-hidden="true">
+        <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="48" height="48" rx="12" fill="currentColor" fill-opacity="0.12" />
+          <path
+            d="M12 14h24v4H12v-4zm0 8h24v4H12v-4zm0 8h16v4H12v-4z"
+            fill="currentColor"
+          />
+        </svg>
+      </div>
+      <h1>Smart Absence</h1>
+      <p>Connexion administrateur</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+      <div class="field">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="admin@exemple.fr"
+          autocomplete="email"
+        />
+        @if (form.controls.email.touched && form.controls.email.hasError('required')) {
+          <span class="field-error">L'email est requis</span>
+        }
+        @if (form.controls.email.touched && form.controls.email.hasError('email')) {
+          <span class="field-error">Email invalide</span>
+        }
+      </div>
+
+      <div class="field">
+        <label for="password">Mot de passe</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          placeholder="••••••••"
+          autocomplete="current-password"
+        />
+        @if (form.controls.password.touched && form.controls.password.hasError('required')) {
+          <span class="field-error">Le mot de passe est requis</span>
+        }
+      </div>
+
+      @if (errorMessage()) {
+        <div class="alert-error" role="alert">{{ errorMessage() }}</div>
+      }
+
+      <button type="submit" class="btn-primary" [disabled]="isLoading()">
+        @if (isLoading()) {
+          Connexion...
+        } @else {
+          Se connecter
+        }
+      </button>
+    </form>
+
+    <p class="login-footer">
+      <a routerLink="/login">Connexion enseignant</a>
+    </p>
+  </div>
+</div>

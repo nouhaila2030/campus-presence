@@ -1,0 +1,59 @@
+<div class="dashboard">
+  <header class="dashboard-header">
+    <div class="brand">
+      <span class="brand-dot"></span>
+      Smart Absence
+    </div>
+    <button type="button" class="btn-logout" (click)="auth.logout()">Déconnexion</button>
+  </header>
+
+  <main class="dashboard-main">
+    <div class="welcome-card">
+      <h1>Bienvenue{{ enseignant ? ', ' + enseignant.prenom + ' ' + enseignant.nom : '' }} !</h1>
+      <p>Vous êtes connecté en tant qu'enseignant.</p>
+      @if (enseignant; as teacher) {
+        @if (teacher.matricule) {
+          <p class="matricule">Matricule : {{ teacher.matricule }}</p>
+        }
+      }
+    </div>
+
+    <a routerLink="/presences" class="action-card">
+      <span class="action-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M9 11l3 3L22 4M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </span>
+      <span class="action-text">
+        <strong>Prise de présence</strong>
+        <span>Marquer les absents pour une séance</span>
+      </span>
+      <span class="action-arrow" aria-hidden="true">›</span>
+    </a>
+
+    <a routerLink="/absences" class="action-card">
+      <span class="action-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path
+            d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </span>
+      <span class="action-text">
+        <strong>Voir les absences</strong>
+        <span>Consulter la liste des absences enregistrées</span>
+      </span>
+      <span class="action-arrow" aria-hidden="true">›</span>
+    </a>
+  </main>
+</div>

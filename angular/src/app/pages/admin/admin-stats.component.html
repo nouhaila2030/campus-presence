@@ -1,0 +1,62 @@
+@if (errorMessage()) {
+  <div class="alert-error" role="alert">{{ errorMessage() }}</div>
+}
+
+@if (isLoading()) {
+  <p class="loading-text">Chargement des statistiques…</p>
+} @else {
+  <section class="stats-grid" aria-label="Statistiques">
+    <article class="stat-card">
+      <span class="stat-label">Total étudiants</span>
+      <span class="stat-value">{{ totalEtudiants() }}</span>
+    </article>
+    <article class="stat-card">
+      <span class="stat-label">Total absences</span>
+      <span class="stat-value">{{ totalAbsences() }}</span>
+    </article>
+    <article class="stat-card stat-card-accent">
+      <span class="stat-label">Absences justifiées</span>
+      <span class="stat-value">{{ totalJustifiees() }}</span>
+    </article>
+    <article class="stat-card stat-card-muted">
+      <span class="stat-label">Absences non justifiées</span>
+      <span class="stat-value">{{ totalNonJustifiees() }}</span>
+    </article>
+  </section>
+
+  <section class="charts-grid">
+    <article class="chart-card chart-card-wide">
+      <div class="chart-card-header">
+        <h2>Absences par classe</h2>
+      </div>
+      <div class="chart-container chart-container-bar">
+        <canvas #barChart></canvas>
+      </div>
+    </article>
+
+    <article class="chart-card">
+      <div class="chart-card-header">
+        <h2>Justifiées vs non justifiées</h2>
+      </div>
+      <div class="chart-container chart-container-pie">
+        <canvas #pieChart></canvas>
+      </div>
+    </article>
+
+    <article class="chart-card chart-card-wide">
+      <div class="chart-card-header">
+        <h2>Évolution des absences</h2>
+        <label class="granularity-select">
+          <span class="sr-only">Granularité</span>
+          <select class="filter-control" [value]="lineGranularity()" (change)="onLineGranularityChange($event)">
+            <option value="day">Par jour</option>
+            <option value="week">Par semaine</option>
+          </select>
+        </label>
+      </div>
+      <div class="chart-container chart-container-line">
+        <canvas #lineChart></canvas>
+      </div>
+    </article>
+  </section>
+}
