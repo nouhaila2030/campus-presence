@@ -248,9 +248,8 @@ Palette **Caramel professionnel** cohérente sur toutes les plateformes :
 
 ---
 
-## 👨‍💻 Développé avec
+## 👨‍💻 Outils de développement
 
-- **Kiro AI** — Assistant de développement IA
 - **IntelliJ IDEA** — Backend Java
 - **Visual Studio Code** — Frontend, Mobile, IA
 
