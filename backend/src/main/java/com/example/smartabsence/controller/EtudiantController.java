@@ -30,6 +30,30 @@ public class EtudiantController {
         return etudiantRepository.findAll();
     }
 
+    /**
+     * GET /api/etudiants/light — retourne les étudiants SANS la photo (léger)
+     * Utilisé par Angular pour la liste présence/absence
+     */
+    @GetMapping("/light")
+    public List<java.util.Map<String, Object>> getAllLight() {
+        return etudiantRepository.findAll().stream().map(e -> {
+            java.util.Map<String, Object> m = new java.util.LinkedHashMap<>();
+            m.put("id", e.getId());
+            m.put("nom", e.getNom());
+            m.put("prenom", e.getPrenom());
+            m.put("email", e.getEmail());
+            m.put("matricule", e.getMatricule());
+            if (e.getClasse() != null) {
+                java.util.Map<String, Object> c = new java.util.LinkedHashMap<>();
+                c.put("id", e.getClasse().getId());
+                c.put("nom", e.getClasse().getNom());
+                c.put("niveau", e.getClasse().getNiveau());
+                m.put("classe", c);
+            }
+            return m;
+        }).collect(java.util.stream.Collectors.toList());
+    }
+
     @PostMapping
     public Etudiant create(@RequestBody EtudiantDTO dto) {
         Etudiant etudiant = new Etudiant();

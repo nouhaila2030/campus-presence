@@ -1,8 +1,8 @@
 <div class="dashboard">
   <header class="dashboard-header">
     <div class="brand">
-      <span class="brand-dot"></span>
-      Smart Absence
+      <img src="fst-logo.png" alt="FST Marrakech" class="brand-logo" />
+      <span class="brand-name">Campus Présence</span>
     </div>
     <button type="button" class="btn-logout" (click)="auth.logout()">Déconnexion</button>
   </header>
@@ -55,5 +55,20 @@
       </span>
       <span class="action-arrow" aria-hidden="true">›</span>
     </a>
+
+    <a routerLink="/seance-presences" class="action-card">
+      <span class="action-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+      <span class="action-text">
+        <strong>Liste présence / absence par séance</strong>
+        <span>Voir les présents et absents après validation mobile</span>
+      </span>
+      <span class="action-arrow" aria-hidden="true">›</span>
+    </a>
+
   </main>
 </div>

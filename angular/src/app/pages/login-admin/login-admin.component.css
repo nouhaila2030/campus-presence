@@ -4,12 +4,13 @@
   font-size: 0.875rem;
 }
 
-.login-footer a {
-  color: #2563eb;
-  font-weight: 600;
-  text-decoration: none;
-}
+.login-footer a { color: #8B4513; font-weight: 600; text-decoration: none; }
+.login-footer a:hover { text-decoration: underline; }
 
-.login-footer a:hover {
-  text-decoration: underline;
+.fst-logo {
+  display: block;
+  margin: 0 auto 1rem;
+  width: 280px;
+  height: 100px;
+  object-fit: contain;
 }

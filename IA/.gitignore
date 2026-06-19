@@ -1,0 +1,7 @@
+venv/
+__pycache__/
+*.pyc
+encodings.pkl
+dataset/
+*.png
+*.jpg

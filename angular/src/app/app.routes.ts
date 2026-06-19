@@ -5,6 +5,7 @@ import { LoginAdminComponent } from './pages/login-admin/login-admin.component';
 import { LoginComponent } from './pages/login/login.component';
 import { AbsencesComponent } from './pages/absences/absences.component';
 import { PresencesComponent } from './pages/presences/presences.component';
+import { SeancePresencesComponent } from './pages/seance-presences/seance-presences.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -14,5 +15,6 @@ export const routes: Routes = [
   { path: 'admin', component: AdminComponent },
   { path: 'presences', component: PresencesComponent },
   { path: 'absences', component: AbsencesComponent },
+  { path: 'seance-presences', component: SeancePresencesComponent },
   { path: '**', redirectTo: 'login' },
 ];

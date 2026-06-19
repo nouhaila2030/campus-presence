@@ -1,93 +1,263 @@
-# mobile-spring-project
+# 🎓 Campus Présence — Système de Gestion des Présences par Reconnaissance Faciale
 
+> Projet de fin d'études — Faculté des Sciences et Techniques de Marrakech (FSTG)
 
+---
 
-## Getting started
+## 📌 Description
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+**Campus Présence** est une application complète de gestion des présences utilisant la **reconnaissance faciale par intelligence artificielle**. Le professeur prend une photo du groupe d'étudiants depuis son téléphone, l'IA détecte automatiquement les présents et absents, et les résultats sont enregistrés en base de données et consultables via une interface web.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+---
 
-## Add your files
-
-* [Create](https://docs.gitlab.com/user/project/repository/web_editor/#create-a-file) or [upload](https://docs.gitlab.com/user/project/repository/web_editor/#upload-a-file) files
-* [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
+## 🏗️ Architecture
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/r.sellak5334/mobile-spring-project.git
-git branch -M main
-git push -uf origin main
+Campus Présence
+├── backend/     → API REST Spring Boot (Java)         → port 8080
+├── angular/     → Interface Web Angular               → port 4200
+├── mobile/      → Application Mobile React Native     → port 8081
+└── IA/          → Service Reconnaissance Faciale Flask → port 5000
 ```
 
-## Integrate with your tools
+---
 
-* [Set up project integrations](https://gitlab.com/r.sellak5334/mobile-spring-project/-/settings/integrations)
+## ✨ Fonctionnalités
 
-## Collaborate with your team
+### 📱 Application Mobile (Enseignant)
+- Connexion enseignant sécurisée
+- Sélection de la séance du cours
+- **Prise de photo du groupe** → reconnaissance faciale automatique
+- Liste présents/absents avec **correction manuelle** (switch par étudiant)
+- Validation et envoi des absences vers le backend
+- Consultation de ses séances et absences
 
-* [Invite team members and collaborators](https://docs.gitlab.com/user/project/members/)
-* [Create a new merge request](https://docs.gitlab.com/user/project/merge_requests/creating_merge_requests/)
-* [Automatically close issues from merge requests](https://docs.gitlab.com/user/project/issues/managing_issues/#closing-issues-automatically)
-* [Enable merge request approvals](https://docs.gitlab.com/user/project/merge_requests/approvals/)
-* [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+### 🌐 Interface Web (Angular)
+- Dashboard enseignant avec accès rapide
+- Prise de présence manuelle
+- Liste des absences par séance avec filtres
+- **Page de présences/absences par séance** (résultats du scan mobile)
+- Panel administrateur : gestion étudiants, enseignants, classes
+- Dashboard statistiques avec graphiques Chart.js
 
-## Test and Deploy
+### 🤖 Service IA (Flask)
+- Détection de visages sur photo de groupe
+- Reconnaissance avec encodages multiples (5 variations par photo)
+- Tolérance configurable (0.45 par défaut)
+- Ajout dynamique de nouveaux étudiants au modèle
 
-Use the built-in continuous integration in GitLab.
+### ⚙️ Backend (Spring Boot)
+- API REST complète
+- Gestion : Enseignants, Étudiants, Séances, Absences, Classes, Matières
+- Enregistrement automatique des absences depuis le mobile
 
-* [Get started with GitLab CI/CD](https://docs.gitlab.com/ci/quick_start/)
-* [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/user/application_security/sast/)
-* [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/topics/autodevops/requirements/)
-* [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/user/clusters/agent/)
-* [Set up protected environments](https://docs.gitlab.com/ci/environments/protected_environments/)
+---
 
-***
+## 🤖 Modèle IA
 
-# Editing this README
+| Paramètre | Valeur |
+|-----------|--------|
+| Algorithme | HOG (Histogram of Oriented Gradients) |
+| Bibliothèque | face_recognition + dlib ResNet-34 |
+| Tolérance | 0.45 |
+| Variations par photo | 5 (original, luminosité±, contraste+, miroir) |
+| Précision (LFW benchmark) | ~99.38% |
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+---
 
-## Suggestions for a good README
+## 🛠️ Technologies utilisées
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+| Couche | Technologie |
+|--------|-------------|
+| Backend | Java 17 + Spring Boot 3 + Spring Data JPA |
+| Base de données | MySQL 8 |
+| Frontend | Angular 21 + Chart.js |
+| Mobile | React Native + Expo SDK 54 |
+| Intelligence Artificielle | Python 3.10 + Flask + face_recognition + dlib |
 
-## Name
-Choose a self-explaining name for your project.
+---
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+## 🚀 Installation et lancement
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+### Prérequis
+- Java 17+
+- Node.js 18+
+- Python 3.10.11
+- MySQL 8
+- Expo Go (sur téléphone)
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+---
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+### 1. Backend Spring Boot
+```bash
+cd backend
+mvnw.cmd spring-boot:run
+```
+Créer la base de données MySQL :
+```sql
+CREATE DATABASE smartabsencemobile;
+```
+Configurer `backend/src/main/resources/application.properties` :
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/smartabsencemobile
+spring.datasource.username=root
+spring.datasource.password=
+```
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+---
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+### 2. Service IA Flask
+```bash
+cd IA
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+```
+> ⚠️ **Dataset non inclus** : Vous devez fournir votre propre dataset de visages.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+Structure du dataset attendue :
+```
+IA/
+└── dataset/
+    ├── Prenom Nom Etudiant 1/
+    │   ├── photo1.jpg
+    │   └── photo2.jpg
+    └── Prenom Nom Etudiant 2/
+        └── photo1.jpg
+```
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+Générer les encodages :
+```bash
+python encode_faces.py
+```
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+Lancer le serveur IA :
+```bash
+python app.py
+```
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+---
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+### 3. Frontend Angular
+```bash
+cd angular
+npm install
+npm start
+```
+Accès : `http://localhost:4200`
 
-## License
-For open source projects, say how it is licensed.
+---
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+### 4. Application Mobile
+```bash
+cd mobile
+npm install
+npx expo start --clear
+```
+Scanner le QR code avec **Expo Go** sur le téléphone.
+
+> ⚠️ **Important** : Mettre à jour l'IP WiFi dans `mobile/constants/api.ts` et `mobile/app/presence.tsx` avec l'IP de votre machine.
+
+```bash
+# Trouver votre IP WiFi
+ipconfig
+```
+
+---
+
+## 📁 Structure du projet
+
+```
+campus-presence/
+├── backend/                    ← Spring Boot API
+│   └── src/main/java/com/example/smartabsence/
+│       ├── controller/         ← REST Controllers
+│       ├── model/              ← Entités JPA
+│       ├── repository/         ← Spring Data repositories
+│       └── service/            ← Logique métier
+│
+├── angular/                    ← Frontend Web
+│   └── src/app/pages/
+│       ├── login/              ← Connexion enseignant
+│       ├── dashboard/          ← Tableau de bord
+│       ├── presences/          ← Prise de présence
+│       ├── absences/           ← Liste absences
+│       ├── seance-presences/   ← Résultats par séance
+│       └── admin/              ← Panel admin
+│
+├── mobile/                     ← App React Native
+│   └── app/
+│       ├── index.tsx           ← Login
+│       ├── home.tsx            ← Accueil
+│       ├── presence.tsx        ← Scan + IA
+│       ├── absences.tsx        ← Absences
+│       ├── seances.tsx         ← Séances
+│       └── etudiants.tsx       ← Étudiants
+│
+└── IA/                         ← Service Flask
+    ├── app.py                  ← API Flask (4 endpoints)
+    ├── encode_faces.py         ← Génération encodages
+    ├── requirements.txt        ← Dépendances Python
+    └── dataset/                ← ⚠️ NON INCLUS (données personnelles)
+```
+
+---
+
+## 🔌 API Endpoints
+
+### Backend Spring Boot (`http://localhost:8080/api`)
+| Méthode | Endpoint | Description |
+|---------|----------|-------------|
+| POST | `/enseignants/login` | Connexion enseignant |
+| GET | `/etudiants` | Liste étudiants |
+| GET | `/etudiants/light` | Liste étudiants (sans photos) |
+| GET | `/seances` | Liste séances |
+| POST | `/seances` | Créer séance |
+| GET | `/absences` | Liste absences |
+| POST | `/absences` | Enregistrer absence |
+
+### Service IA (`http://localhost:5000`)
+| Méthode | Endpoint | Description |
+|---------|----------|-------------|
+| POST | `/scan-group` | Photo groupe → présents/absents |
+| POST | `/recognize` | 1 visage → nom + confiance |
+| POST | `/add-student` | Ajouter étudiant au modèle |
+| GET | `/health` | Statut du service |
+
+---
+
+## 🎨 Design
+
+Palette **Caramel professionnel** cohérente sur toutes les plateformes :
+
+| Couleur | Code | Usage |
+|---------|------|-------|
+| Caramel foncé | `#5C3317` | Titres, headers |
+| Caramel moyen | `#8B4513` | Boutons |
+| Caramel doré | `#CD853F` | Accents, icônes |
+| Crème | `#FAF3E0` | Fond général |
+| Blanc cassé | `#FFFEF9` | Cards |
+
+---
+
+## ⚠️ Notes importantes
+
+- Le **dataset de photos** n'est pas inclus dans ce dépôt (données personnelles)
+- Le fichier **`encodings.pkl`** n'est pas inclus (généré depuis le dataset)
+- Mettre à jour l'**adresse IP WiFi** à chaque session dans les fichiers de configuration
+
+---
+
+## 👨‍💻 Développé avec
+
+- **Kiro AI** — Assistant de développement IA
+- **IntelliJ IDEA** — Backend Java
+- **Visual Studio Code** — Frontend, Mobile, IA
+
+---
+
+*Faculté des Sciences et Techniques — Marrakech*
+
+---
+
+**GitHub** : [nouhaila2030](https://github.com/nouhaila2030/campus-presence)

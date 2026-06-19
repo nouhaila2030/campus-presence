@@ -1,0 +1,69 @@
+# ──────────────────────────────────────────
+# DATASET & ENCODINGS IA — NE PAS DEPOSER
+# ──────────────────────────────────────────
+IA/dataset/
+IA/encodings.pkl
+IA/debug_group.jpg
+IA/tmp_fr.png
+IA/tmp_aug.png
+IA/*.jpg
+IA/*.jpeg
+IA/*.png
+
+# Python venv & cache
+IA/venv/
+IA/__pycache__/
+IA/*.pyc
+IA/*.pyo
+*.pyc
+__pycache__/
+
+# ──────────────────────────────────────────
+# BACKEND SPRING BOOT
+# ──────────────────────────────────────────
+backend/target/
+backend/.mvn/wrapper/maven-wrapper.jar
+*.class
+*.jar
+*.war
+*.ear
+.DS_Store
+
+# ──────────────────────────────────────────
+# FRONTEND ANGULAR
+# ──────────────────────────────────────────
+angular/node_modules/
+angular/dist/
+angular/.angular/
+angular/.env
+
+# Ancien dossier Frontend (s'il existe)
+Frontend/node_modules/
+Frontend/dist/
+Frontend/.angular/
+
+# ──────────────────────────────────────────
+# MOBILE REACT NATIVE / EXPO
+# ──────────────────────────────────────────
+mobile/node_modules/
+mobile/.expo/
+mobile/dist/
+mobile/.env
+
+# ──────────────────────────────────────────
+# GENERAL
+# ──────────────────────────────────────────
+node_modules/
+.env
+.env.local
+.env.production
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/settings.json
+*.suo
+*.user

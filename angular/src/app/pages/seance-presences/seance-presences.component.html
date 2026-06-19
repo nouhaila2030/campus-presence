@@ -1,0 +1,125 @@
+<div class="page">
+
+  <!-- Header bleu marine comme le reste de l'app -->
+  <div class="page-header">
+    <a routerLink="/dashboard" class="back-btn">← Retour</a>
+    <h1>Liste présence / absence par séance</h1>
+  </div>
+
+  <div class="content">
+
+    <!-- Sélecteur séance -->
+    <div class="selector-bar">
+      <label for="seance">Séance :</label>
+      <select id="seance" (change)="onSeanceChange($event)">
+        <option value="">-- Choisir une séance --</option>
+        @for (s of seances(); track s.id) {
+          <option [value]="s.id">
+            {{ s.date }} · {{ s.matiere?.nom ?? 'Séance' }} · {{ s.classe?.nom ?? '' }}
+            ({{ s.heureDebut?.substring(0,5) }} – {{ s.heureFin?.substring(0,5) }})
+          </option>
+        }
+      </select>
+    </div>
+
+    @if (error()) { <div class="alert-error">{{ error() }}</div> }
+    @if (loading()) { <div class="loading">Chargement...</div> }
+
+    @if (selected() && !loading()) {
+
+      <!-- Badges séance -->
+      <div class="seance-badges">
+        <span class="badge">{{ selected()!.date }}</span>
+        <span class="badge">{{ selected()!.matiere?.nom }}</span>
+        <span class="badge">{{ selected()!.classe?.nom }}</span>
+        <span class="badge">{{ selected()!.heureDebut?.substring(0,5) }} – {{ selected()!.heureFin?.substring(0,5) }}</span>
+      </div>
+
+      <!-- Compteurs -->
+      <div class="counters">
+        <div class="counter">
+          <span class="num">{{ presents().length }}</span>
+          <span class="lbl">Présents</span>
+        </div>
+        <div class="counter">
+          <span class="num">{{ absents().length }}</span>
+          <span class="lbl">Absents</span>
+        </div>
+        <div class="counter">
+          <span class="num">{{ etudiants().length }}</span>
+          <span class="lbl">Total</span>
+        </div>
+      </div>
+
+      <div class="grid">
+
+        <!-- PRÉSENTS -->
+        <div class="section">
+          <div class="section-head">✓ Présents ({{ presents().length }})</div>
+
+          @if (presents().length === 0) {
+            <p class="empty">Aucun présent enregistré</p>
+          } @else {
+            @for (filiere of keys(presentsByFiliere()); track filiere) {
+              <div class="filiere-block">
+                <div class="filiere-title">{{ filiere }}</div>
+                <table>
+                  <thead>
+                    <tr><th>#</th><th>Nom</th><th>Prénom</th><th>Matricule</th></tr>
+                  </thead>
+                  <tbody>
+                    @for (e of presentsByFiliere()[filiere]; track e.id; let i = $index) {
+                      <tr>
+                        <td>{{ i + 1 }}</td>
+                        <td><strong>{{ e.nom }}</strong></td>
+                        <td>{{ e.prenom }}</td>
+                        <td class="mono">{{ e.matricule }}</td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            }
+          }
+        </div>
+
+        <!-- ABSENTS -->
+        <div class="section">
+          <div class="section-head">✗ Absents ({{ absents().length }})</div>
+
+          @if (absents().length === 0) {
+            <p class="empty">Aucune absence enregistrée</p>
+          } @else {
+            @for (filiere of keys(absentsByFiliere()); track filiere) {
+              <div class="filiere-block">
+                <div class="filiere-title">{{ filiere }}</div>
+                <table>
+                  <thead>
+                    <tr><th>#</th><th>Nom</th><th>Prénom</th><th>Matricule</th><th>Justifiée</th></tr>
+                  </thead>
+                  <tbody>
+                    @for (e of absentsByFiliere()[filiere]; track e.id; let i = $index) {
+                      <tr>
+                        <td>{{ i + 1 }}</td>
+                        <td><strong>{{ e.nom }}</strong></td>
+                        <td>{{ e.prenom }}</td>
+                        <td class="mono">{{ e.matricule }}</td>
+                        <td>
+                          <span [class]="getJustifiee(e.id) ? 'tag-yes' : 'tag-no'">
+                            {{ getJustifiee(e.id) ? 'Oui' : 'Non' }}
+                          </span>
+                        </td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            }
+          }
+        </div>
+
+      </div>
+    }
+
+  </div>
+</div>
