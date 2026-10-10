@@ -24,7 +24,7 @@ Campus Présence
 ## ✨ Fonctionnalités
 
 ### 📱 Application Mobile (Enseignant)
-- Connexion enseignant sécurisée
+- Connexion enseignant par email et mot de passe
 - Sélection de la séance du cours
 - **Prise de photo du groupe** → reconnaissance faciale automatique
 - Liste présents/absents avec **correction manuelle** (switch par étudiant)
@@ -60,7 +60,7 @@ Campus Présence
 | Bibliothèque | face_recognition + dlib ResNet-34 |
 | Tolérance | 0.45 |
 | Variations par photo | 5 (original, luminosité±, contraste+, miroir) |
-| Précision (LFW benchmark) | ~99.38% |
+| Précision (LFW benchmark) | ~99.38% (mesurée sur le benchmark LFW, pas sur le dataset de ce projet) |
 
 ---
 
@@ -244,6 +244,14 @@ Palette **Caramel professionnel** cohérente sur toutes les plateformes :
 - Le **dataset de photos** n'est pas inclus dans ce dépôt (données personnelles)
 - Le fichier **`encodings.pkl`** n'est pas inclus (généré depuis le dataset)
 - Mettre à jour l'**adresse IP WiFi** à chaque session dans les fichiers de configuration
+
+---
+
+## 🔒 Privacy and security notes
+
+- Les photos de visages et les encodages faciaux sont des données personnelles biométriques. Le dataset et `encodings.pkl` sont exclus de ce dépôt et doivent être collectés avec le consentement des personnes concernées (loi marocaine 09-08, directives CNDP).
+- Les mots de passe sont hachés avec **BCrypt** (Spring Security Crypto).
+- Limitations connues de ce prototype académique : les routes de l'API ne sont pas protégées par jetons ou sessions (pas de couche d'autorisation), l'adresse IP locale doit être configurée manuellement dans l'application mobile, et `ddl-auto=update` et la journalisation SQL sont activés pour le développement. Ces points doivent être corrigés avant tout déploiement réel.
 
 ---
 

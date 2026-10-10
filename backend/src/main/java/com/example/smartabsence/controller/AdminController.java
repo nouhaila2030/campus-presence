@@ -7,6 +7,7 @@ import com.example.smartabsence.repository.AdminRepository;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,9 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class AdminController {
 
     private final AdminRepository adminRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public AdminController(AdminRepository adminRepository) {
+    public AdminController(AdminRepository adminRepository,
+                           PasswordEncoder passwordEncoder) {
         this.adminRepository = adminRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping
@@ -34,14 +38,16 @@ public class AdminController {
         admin.setNom(dto.getNom());
         admin.setPrenom(dto.getPrenom());
         admin.setEmail(dto.getEmail());
-        admin.setPassword(dto.getPassword());
+        // Hash the password before persisting
+        admin.setPassword(passwordEncoder.encode(dto.getPassword()));
         return adminRepository.save(admin);
     }
 
     @PostMapping("/login")
     public ResponseEntity<Admin> login(@RequestBody LoginRequest request) {
         return adminRepository
-                .findByEmailAndPassword(request.getEmail(), request.getPassword())
+                .findByEmail(request.getEmail())
+                .filter(a -> passwordEncoder.matches(request.getPassword(), a.getPassword()))
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
     }
