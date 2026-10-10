@@ -1,6 +1,5 @@
 # 🎓 Campus Présence — Système de Gestion des Présences par Reconnaissance Faciale
 
-> Projet de fin d'études — Faculté des Sciences et Techniques de Marrakech (FSTG)
 
 ---
 
