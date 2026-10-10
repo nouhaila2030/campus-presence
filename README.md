@@ -254,7 +254,6 @@ Palette **Caramel professionnel** cohérente sur toutes les plateformes :
 
 ---
 
-*Faculté des Sciences et Techniques — Marrakech*
 
 ---
 
