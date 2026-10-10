@@ -275,3 +275,4 @@ Team project developed by:
 ---
 
 **GitHub** : [nouhaila2030](https://github.com/nouhaila2030/campus-presence)
+**Linkedin** : [Nouhaila El Hamal](https://www.linkedin.com/in/nouhaila-el-hamal-972805293/)
