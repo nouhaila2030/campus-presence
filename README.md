@@ -238,6 +238,14 @@ Palette **Caramel professionnel** cohérente sur toutes les plateformes :
 | Blanc cassé | `#FFFEF9` | Cards |
 
 ---
+## Team
+
+Team project developed by:
+
+- Nouhaila El Hamal — [@nouhaila2030](https://github.com/nouhaila2030)
+- Rania Sellak — [@raniasellak](https://github.com/raniasellak)
+  
+---
 
 ## ⚠️ Notes importantes
 
@@ -254,6 +262,7 @@ Palette **Caramel professionnel** cohérente sur toutes les plateformes :
 - Limitations connues de ce prototype académique : les routes de l'API ne sont pas protégées par jetons ou sessions (pas de couche d'autorisation), l'adresse IP locale doit être configurée manuellement dans l'application mobile, et `ddl-auto=update` et la journalisation SQL sont activés pour le développement. Ces points doivent être corrigés avant tout déploiement réel.
 
 ---
+
 
 ## 👨‍💻 Outils de développement
 
